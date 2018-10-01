@@ -2,7 +2,7 @@
   "author" : "Scott Savarie",
   "commands" : [
     {
-      "script" : "script.cocoascript",
+      "script" : "script.js",
       "shortcut" : "ctrl alt cmd e",
       "name" : "Enumerator",
       "handlers" : {
