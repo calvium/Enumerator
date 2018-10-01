@@ -1,3 +1,5 @@
+var Settings = require('sketch/settings');
+
 function renameArtboard(enteredName, pageName, artboard, index) {
   var originalArtboardName = artboard.name();
   var artboardName = originalArtboardName.replace(/ *\d\d */, '').replace(pageName, '');
@@ -16,8 +18,12 @@ function sortArtboards(artboards) {
 
 var onRun = function (context) {
   var doc = context.document;
+
+  var template = Settings.settingForKey('template');
   var enteredName =
-    String(doc.askForUserInput_initialValue("Renaming Scheme. {PAGE} = Name of Page Artboard is on. {ARTBOARD} = Name of Artboard. {NUM} = The index of the page", "{NUM} {ARTBOARD}"));
+    String(doc.askForUserInput_initialValue("Renaming Scheme. {PAGE} = Name of Page Artboard is on. {ARTBOARD} = Name of Artboard. {NUM} = The index of the page", template || "{NUM} {ARTBOARD}"));
+
+  Settings.setSettingForKey('template', enteredName);
   if (!enteredName) return;
 
   var currentPage = doc.currentPage();
