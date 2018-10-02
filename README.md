@@ -1,7 +1,5 @@
 # Enumerator
-Rename and number your artboards or layers based on their x,y position
-
-
+Rename and number and sort your artboards or layers based on their x,y position.
 
 ![img](http://i.imgur.com/yfY98Z1.gif)
 
@@ -18,6 +16,8 @@ It will rename all Artboards on the current page.
 
 This version (forked from the original at https://github.com/ScottSavarie/Enumerator) allows you to use insert the original artboard
 name and the page name as well as the numbering.
+
+It also includes portions of Sort Me 1.4 by Roman Shamin https://github.com/romashamin/sort-me-sketch in order to Sort the Resulting Artboards. 
 
 ##Examples
 
