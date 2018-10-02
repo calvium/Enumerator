@@ -1,10 +1,10 @@
 {
-  "author" : "Scott Savarie",
+  "author" : "Scott Savarie / Calvium",
   "commands" : [
     {
       "script" : "script.js",
       "shortcut" : "ctrl alt cmd e",
-      "name" : "Enumerator",
+      "name" : "Enumerator+",
       "handlers" : {
         "run" : "onRun"
       },
@@ -15,13 +15,13 @@
     "items" : [
       "com.bohemiancoding.sketch.runscriptidentifier"
     ],
-    "title" : "Enumerator"
+    "title" : "Enumerator+"
   },
-  "identifier" : "com.example.sketch.7662642c-ab6d-439a-acee-4a6b9bf810df",
-  "version" : "1.1",
-  "description" : "Enumerate your layer or artboard names based on their x and y position",
+  "identifier" : "com.calvium.EnumeratorPlus",
+  "version" : "2.0",
+  "description" : "Enumerate artboard names based on their x and y position",
   "authorEmail" : "scottsavarie@gmail.com",
-  "name" : "Enumerator",
-  "homepage": "http://github.com/ScottSavarie/Enumerator",
-  "updateURL": "https://github.com/ScottSavarie/Enumerator/blob/master/Enumerator.sketchplugin/Contents/Sketch/manifest.json"
+  "name" : "Enumerator+",
+  "homepage": "http://github.com/calvium/Enumerator",
+  "updateURL": "https://github.com/calvium/Enumerator/blob/master/Enumerator.sketchplugin/Contents/Sketch/manifest.json"
 }

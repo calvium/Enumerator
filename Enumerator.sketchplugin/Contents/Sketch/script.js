@@ -1,5 +1,6 @@
-var Settings = require('sketch/settings');
+var Settings = require('sketch/settings')
 var UI = require('sketch/ui')
+@import 'sort.js';
 
 function renameArtboard(enteredName, pageName, artboard, index) {
   var originalArtboardName = artboard.name();
@@ -39,7 +40,20 @@ var onRun = function (context) {
   for (i = 0; i < artboards.length; i++) {
     renameArtboard(enteredName, pageName, artboards[i], i);
   }
+
+  // Now sort them
+  sortArtboardsInUI(context);
 };
 
+// Uses portions of Sort Me (See licence in sort.js file) to
+// sort the list of artboards in the Sketch UI
+function sortArtboardsInUI(context) {
+  var pageArtboards = context.document.currentPage().artboards();
 
+  var moveBack = sendActionTimes.bind(null, context, 'moveBackward:');
 
+  getSteps(pageArtboards, sortLayers(pageArtboards, false))
+    .forEach(function(steps) {
+      moveBack(steps.layer, steps.steps)
+    })
+}
