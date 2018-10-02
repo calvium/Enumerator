@@ -1,4 +1,5 @@
 var Settings = require('sketch/settings');
+var UI = require('sketch/ui')
 
 function renameArtboard(enteredName, pageName, artboard, index) {
   var originalArtboardName = artboard.name();
@@ -21,7 +22,7 @@ var onRun = function (context) {
 
   var template = Settings.settingForKey('template');
   var enteredName =
-    String(doc.askForUserInput_initialValue("Renaming Scheme. {PAGE} = Name of Page Artboard is on. {ARTBOARD} = Name of Artboard. {NUM} = The index of the page", template || "{NUM} {ARTBOARD}"));
+    String(UI.getStringFromUser("Vars: {PAGE} {ARTBOARD} {NUM}", template || "{NUM} {ARTBOARD}"));
 
   Settings.setSettingForKey('template', enteredName);
   if (!enteredName) return;
