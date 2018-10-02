@@ -1,0 +1,178 @@
+/**
+ * Sort Me 1.4
+ *
+ * Copyright © 2015 Roman Shamin https://github.com/romashamin
+ * and licenced under the MIT licence. All rights not explicitly
+ * granted in the MIT license are reserved. See the included
+ * LICENSE file for more details.
+ *
+ * https://github.com/romashamin/
+ * https://twitter.com/romanshamin
+ */
+
+
+
+/**
+ * @param {NSMutableArray} array
+ * @param {Number} atIndex
+ * @param {Number} toIndex
+ * @returns {NSMutableArray}
+ */
+
+function moveObject(array, atIndex, toIndex) {
+  if (atIndex != toIndex) {
+    var object = [[[array objectAtIndex:atIndex] retain] autorelease]
+
+    [array removeObjectAtIndex:atIndex]
+    [array insertObject:object atIndex:toIndex]
+  }
+
+  return array
+}
+
+
+
+/**
+ * Makes `NSApp sendAction` for `layer` `times` times
+ * @param {NSDictionary} context
+ * @param {String} action
+ * @param {MSShapeGroup} layer
+ * @param {Number} times
+ */
+
+function sendActionTimes(context, action, object, times) {
+  var doc  = context.document
+  var page = [doc currentPage]
+  var selection = context.selection
+  var selectedLayers = [selection mutableCopy]
+
+    [page changeSelectionBySelectingLayers: nil]
+
+  for (var i = 0; i < times; i++) {
+    [MSLayerMovement moveBackward: [object]]
+  }
+
+  [page changeSelectionBySelectingLayers: selectedLayers]
+}
+
+
+
+/**
+ * Returns layers sorted by first number in name
+ * @param {NSArray.<MSShapeGroup>} layers
+ * @returns {NSArray.<MSShapeGroup>}
+ */
+
+function sortLayers(layers, isAscending) {
+  var sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:'name'
+  ascending:isAscending
+  selector:'localizedStandardCompare:']
+
+  return [layers sortedArrayUsingDescriptors:[sortDescriptor]]
+}
+
+
+
+/**
+ * @typedef {Object} StepsStruct
+ * @property {MSShapeGroup} layer
+ * @property {Number} steps
+ */
+
+/**
+ * Returns the quantity of steps that needed to reorder `layers`
+ * in according to order of `sortedLayers`
+ * @param {NSArray.<MSShapeGroup>} selection
+ * @param {NSArray.<MSShapeGroup>} sortedLayers
+ * @returns {Array.<StepsStruct>}
+ */
+
+function getSteps(selection, sortedLayers) {
+  var steps = []
+  var selectedLayers = [selection mutableCopy]
+
+  for (var i = 0; i < [sortedLayers count]; i++) {
+    var layer = [sortedLayers objectAtIndex:i]
+    var index = [selectedLayers indexOfObject:layer]
+
+    steps.push({ layer: layer, steps: index - i })
+
+    selectedLayers = moveObject(selectedLayers, index, i)
+  }
+
+  return steps
+}
+
+
+
+/**
+ * @param {NSArray.<MSShapeGroup>} selection
+ * @returns {String}
+ */
+
+function getObjectName(selection) {
+  var object = [selection firstObject]
+
+  switch ([object class]) {
+    case [MSShapeGroup class]:
+      return 'layers'
+    case [MSArtboardGroup class]:
+      return 'artboards'
+    default:
+      return 'objects'
+  }
+}
+
+
+// Removed so we can reuse in script.js
+// /**
+//  * Entry point
+//  * @param {NSDictionary} context
+//  * @param {Boolean} isAscending
+//  */
+//
+// function onRun(context, isAscending) {
+//   var doc        = context.document
+//   var selection  = context.selection
+//   var pluginName = 'Sort Me'
+//
+//   if ([selection count] > 1) {
+//     var moveBack = sendActionTimes.bind(null, context, 'moveBackward:')
+//
+//     getSteps(selection, sortLayers(selection, isAscending))
+//       .forEach(function(steps) {
+//         moveBack(steps.layer, steps.steps)
+//       })
+//
+//       [doc showMessage: pluginName + ': ' + [selection count] + ' ' +
+//     getObjectName(selection) + ' have been sorted']
+//   } else {
+//     [doc showMessage: pluginName + ': nothing to sort']
+//   }
+// }
+
+/**
+ * Entry point for descending order (⌃⇧P)
+ * @param {NSDictionary} context
+ */
+
+function runDescending(context) {
+  onRun(context, false)
+}
+
+
+
+/**
+ * Entry point for ascending order (⌃⇧O)
+ * @param {NSDictionary} context
+ */
+
+function runAscending(context) {
+  onRun(context, true)
+}
+
+// module.exports = {
+//   sendActionTimes: sendActionTimes,
+//   getSteps: getSteps,
+//   sortLayers:sortLayers,
+// };
